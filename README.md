@@ -110,3 +110,32 @@ AI-Payment-Intelligence-Engine/
 │
 ├── .gitignore
 └── README.md
+## 🔗 API Endpoints
+
+### Health Check
+
+`GET /`
+
+Checks whether the FastAPI service is running successfully.
+
+### Fraud Prediction
+
+`POST /predict`
+
+Accepts a transaction ID and 32 transaction feature values, then returns:
+
+- Fraud probability
+- Risk score
+- Risk level
+- Recommended action
+- Top 5 risk factors
+
+## 🎯 Objective
+
+The objective of this project is to build an intelligent payment risk assessment system that can identify potentially fraudulent transactions and provide explainable reasons behind each prediction.
+
+The system combines machine learning with SHAP-based explainable AI to help users understand why a transaction is considered risky.
+
+## 👩‍💻 Author
+
+**Ananya Agarwal**
