@@ -28,7 +28,7 @@ async function analyzeTransaction() {
     try {
 
         const response = await fetch(
-            "http://localhost:8000/predict",
+            "https://ai-payment-intelligence-engine.onrender.com/predict",
             {
                 method: "POST",
 
