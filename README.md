@@ -110,6 +110,9 @@ AI-Payment-Intelligence-Engine/
 │
 ├── .gitignore
 └── README.md
+```
+
+```markdown
 ## 🔗 API Endpoints
 
 ### Health Check
@@ -139,3 +142,4 @@ The system combines machine learning with SHAP-based explainable AI to help user
 ## 👩‍💻 Author
 
 **Ananya Agarwal**
+```
