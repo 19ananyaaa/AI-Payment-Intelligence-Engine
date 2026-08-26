@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Payment Risk Engine</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div>
+            <div class="eyebrow">
+                PAYMENT SECURITY PLATFORM
+            </div>
+
+            <h1>AI Payment Risk Engine</h1>
+
+            <p>
+                Fraud detection & decision intelligence
+            </p>
+        </div>
+
+        <div class="system-status">
+            <span></span>
+            SYSTEM ONLINE
+        </div>
+
+    </header>
+
+
+    <!-- TRANSACTION CONSOLE -->
+    <section class="card transaction-card">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-number">01</span>
+                <h2>Transaction Console</h2>
+            </div>
+
+            <span class="section-note">
+                INPUT DATA
+            </span>
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>Transaction ID</label>
+
+                <input
+                    type="text"
+                    id="transactionId"
+                    placeholder="TXN-10001"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Transaction Features</label>
+
+                <textarea
+                    id="features"
+                    placeholder="Paste the 32 feature values separated by commas"
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <button onclick="analyzeTransaction()">
+            <span>Analyze Transaction</span>
+            <span class="arrow">→</span>
+        </button>
+
+    </section>
+
+
+    <!-- RESULT -->
+    <section id="result" class="result hidden">
+
+        <div class="section-heading result-heading">
+
+            <div>
+                <span class="section-number">02</span>
+                <h2>Risk Assessment</h2>
+            </div>
+
+            <span class="section-note">
+                MODEL DECISION
+            </span>
+
+        </div>
+
+
+        <!-- RISK HERO -->
+        <div class="risk-hero">
+
+            <div class="score-area">
+
+                <p class="label-small">
+                    RISK SCORE
+                </p>
+
+                <h2 id="riskScore">--</h2>
+
+                <div class="risk-scale">
+
+                    <span>LOW</span>
+
+                    <div class="scale-line">
+                        <div class="scale-fill"></div>
+                        <div class="scale-dot"></div>
+                    </div>
+
+                    <span>HIGH</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="decision-area">
+
+                <div class="risk-badge" id="riskLevel">
+                    --
+                </div>
+
+                <div class="decision-text">
+                    <span>RECOMMENDED ACTION</span>
+
+                    <strong id="recommendation">
+                        --
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- METRICS -->
+        <div class="metrics">
+
+            <div class="metric">
+
+                <span class="metric-icon">%</span>
+
+                <div>
+                    <p>Fraud Probability</p>
+                    <h3 id="fraudProbability">--</h3>
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <span class="metric-icon">✓</span>
+
+                <div>
+                    <p>Decision Status</p>
+                    <h3 id="recommendationCopy">Pending</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EXPLANATION -->
+        <div class="explanation">
+
+            <div class="explanation-heading">
+
+                <div>
+                    <span class="section-number">03</span>
+                    <h2>Risk Factors & Decision Logic</h2>
+                </div>
+
+                <p>
+                    Top model contributors
+                </p>
+
+            </div>
+
+
+            <div id="riskFactors"></div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
