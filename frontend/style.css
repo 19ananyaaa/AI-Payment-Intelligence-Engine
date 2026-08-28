@@ -30,10 +30,6 @@
 }
 
 
-/* =========================
-   BODY
-========================= */
-
 body {
     font-family: Arial, Helvetica, sans-serif;
 
@@ -51,10 +47,6 @@ body {
 }
 
 
-/* =========================
-   CONTAINER
-========================= */
-
 .container {
     width: 91%;
     max-width: 1120px;
@@ -62,10 +54,6 @@ body {
     margin: 34px auto 60px;
 }
 
-
-/* =========================
-   HEADER
-========================= */
 
 .topbar {
     display: flex;
@@ -140,10 +128,6 @@ body {
 }
 
 
-/* =========================
-   CARD
-========================= */
-
 .card,
 .result {
     background: var(--white);
@@ -161,9 +145,6 @@ body {
 }
 
 
-/* =========================
-   SECTION HEADING
-========================= */
 
 .section-heading {
     display: flex;
@@ -214,11 +195,6 @@ body {
 
     color: var(--muted);
 }
-
-
-/* =========================
-   TRANSACTION CARD
-========================= */
 
 .transaction-card {
     padding: 25px 28px 28px;
@@ -292,9 +268,6 @@ textarea:focus {
 }
 
 
-/* =========================
-   BUTTON
-========================= */
 
 button {
     width: 100%;
@@ -350,10 +323,6 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   RESULT
-========================= */
-
 .result {
     padding: 25px 28px 30px;
 }
@@ -362,10 +331,6 @@ button:hover .arrow {
     margin-bottom: 0;
 }
 
-
-/* =========================
-   RISK HERO
-========================= */
 
 .risk-hero {
     display: grid;
@@ -402,9 +367,6 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   RISK SCALE
-========================= */
 
 .risk-scale {
     display: flex;
@@ -460,18 +422,16 @@ button:hover .arrow {
 
     top: 50%;
 
-    left: 60%;
+    left: 0%;
 
     transform: translate(-50%, -50%);
 
     box-shadow:
         0 2px 6px rgba(0,0,0,.2);
+
+    transition: left 0.5s ease;
 }
 
-
-/* =========================
-   DECISION
-========================= */
 
 .decision-area {
     display: flex;
@@ -530,9 +490,6 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   METRICS
-========================= */
 
 .metrics {
     display: grid;
@@ -601,10 +558,6 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   EXPLANATION
-========================= */
-
 .explanation {
     margin-top: 28px;
 }
@@ -640,9 +593,6 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   FACTORS
-========================= */
 
 .factor {
     position: relative;
@@ -685,18 +635,11 @@ button:hover .arrow {
 }
 
 
-/* =========================
-   HIDDEN
-========================= */
-
 .hidden {
     display: none;
 }
 
 
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 750px) {
 
@@ -751,7 +694,6 @@ button:hover .arrow {
     font-size: 21px;
 }
 
-/* RISK FACTORS */
 
 .factor {
     padding: 17px 18px;
@@ -781,4 +723,93 @@ button:hover .arrow {
     box-shadow:
         0 0 25px rgba(34,211,238,.08);
 }
+
+.friendly-input {
+    margin-top: 21px;
 }
+
+.input-intro h3 {
+    font-size: 15px;
+    color: var(--navy);
+    margin-bottom: 5px;
+}
+
+.input-intro p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.simple-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 16px;
+}
+
+
+.advanced-section {
+    margin-top: 18px;
+}
+
+.advanced-toggle {
+    margin-top: 0;
+    height: 42px;
+
+    background: #f7f9fc;
+    color: var(--navy);
+
+    border: 1px solid var(--line);
+
+    box-shadow: none;
+
+    justify-content: space-between;
+
+    font-size: 12px;
+}
+
+.advanced-toggle:hover {
+    background: var(--blue-light);
+    box-shadow: none;
+    transform: none;
+}
+
+#advancedArrow {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.advanced-input {
+    margin-top: 12px;
+    padding: 16px;
+
+    background: #fafbfd;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.input-help {
+    margin: 5px 0 10px;
+
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+button:disabled {
+    opacity: .65;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 750px) {
+
+    .simple-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+}
+
+
