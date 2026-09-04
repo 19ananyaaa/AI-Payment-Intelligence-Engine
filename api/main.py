@@ -6,6 +6,8 @@ import shap
 import math
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
+import json
+from datetime import datetime, timezone
 
 
 class TransactionRequest(BaseModel):
@@ -23,6 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_PATH = BASE_DIR / "models" / "fraud_model.pkl"
 FEATURES_PATH = BASE_DIR / "models" / "feature_columns.pkl"
 DATA_PATH = BASE_DIR / "data" / "demo_transactions.csv"
+AUDIT_LOG_PATH = BASE_DIR / "data" / "audit_log.jsonl"
+def save_audit_record(record):
+    AUDIT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(AUDIT_LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(record) + "\n")
 
 
 # =========================================================
@@ -277,7 +285,23 @@ def predict(transaction: TransactionRequest):
 
         })
 
+    # -----------------------------------------------------
+    # Audit trail
+    # -----------------------------------------------------
 
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    audit_record = {
+        "timestamp": timestamp,
+        "transaction_id": transaction_id,
+        "fraud_probability": round(fraud_probability, 6),
+        "risk_score": risk_score,
+        "risk_level": risk_level,
+        "recommendation": recommendation,
+        "top_risk_factors": risk_factors
+    }
+
+    save_audit_record(audit_record)
     # -----------------------------------------------------
     # Final response
     # -----------------------------------------------------
