@@ -7,11 +7,6 @@ async function analyzeTransaction() {
             .trim()
             .toUpperCase();
 
-
-    // -----------------------------------------------------
-    // Validate Transaction ID
-    // -----------------------------------------------------
-
     if (!transactionId) {
 
         alert("Please enter a Transaction ID.");
@@ -37,22 +32,14 @@ async function analyzeTransaction() {
 
     try {
 
-        // -------------------------------------------------
-        // Loading state
-        // -------------------------------------------------
 
         button.disabled = true;
 
         button.querySelector("span:first-child").textContent =
             "Analyzing...";
 
-
-        // -------------------------------------------------
-        // API request
-        // -------------------------------------------------
-
         const response = await fetch(
-            "https://ai-payment-intelligence-api.onrender.com",
+    "https://ai-payment-intelligence-api.onrender.com/predict",
             {
                 method: "POST",
 
@@ -68,11 +55,6 @@ async function analyzeTransaction() {
                 })
             }
         );
-
-
-        // -------------------------------------------------
-        // Handle API errors
-        // -------------------------------------------------
 
         if (!response.ok) {
 
