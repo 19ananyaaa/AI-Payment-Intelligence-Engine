@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
 import joblib
 import pandas as pd
 import shap
@@ -8,27 +8,26 @@ from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 
 
-# -----------------------------
-# Request Model
-# -----------------------------
-
 class TransactionRequest(BaseModel):
-    transaction_id: str
-    amount: float
-    time: float
-    advanced_features: dict = {}
+    transaction_id: str = Field(
+        description="Demo transaction ID, e.g. TXN-000001"
+    )
 
 
-# -----------------------------
-# Project Root
-# -----------------------------
+# =========================================================
+# PATHS
+# =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MODEL_PATH = BASE_DIR / "models" / "fraud_model.pkl"
+FEATURES_PATH = BASE_DIR / "models" / "feature_columns.pkl"
+DATA_PATH = BASE_DIR / "data" / "creditcard.csv"
 
-# -----------------------------
-# FastAPI App
-# -----------------------------
+
+# =========================================================
+# FASTAPI APP
+# =========================================================
 
 app = FastAPI(
     title="AI Payment Risk & Fraud Intelligence API",
@@ -37,9 +36,9 @@ app = FastAPI(
 )
 
 
-# -----------------------------
+# =========================================================
 # CORS
-# -----------------------------
+# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
@@ -50,123 +49,163 @@ app.add_middleware(
 )
 
 
-# -----------------------------
-# Load Model
-# -----------------------------
+# =========================================================
+# LOAD MODEL AND DATA
+# =========================================================
 
-model = joblib.load(
-    BASE_DIR / "models" / "fraud_model.pkl"
-)
+model = joblib.load(MODEL_PATH)
 
+feature_columns = joblib.load(FEATURES_PATH)
 
-# -----------------------------
-# Load Feature Columns
-# -----------------------------
-
-feature_columns = joblib.load(
-    BASE_DIR / "models" / "feature_columns.pkl"
-)
-
-
-# -----------------------------
-# SHAP Explainer
-# -----------------------------
+dataset = pd.read_csv(DATA_PATH)
 
 explainer = shap.TreeExplainer(model)
 
 
-# -----------------------------
-# Home
-# -----------------------------
+# =========================================================
+# HOME
+# =========================================================
 
 @app.get("/")
 def home():
 
     return {
         "message": "AI Payment Risk & Fraud Intelligence API is running",
-        "status": "active"
+        "status": "active",
+        "model_features": len(feature_columns),
+        "dataset_transactions": len(dataset)
     }
 
 
-# -----------------------------
-# Prediction
-# -----------------------------
+# =========================================================
+# PREDICT
+# =========================================================
 
 @app.post("/predict")
 def predict(transaction: TransactionRequest):
 
-    amount = transaction.amount
-    time_value = transaction.time
+    transaction_id = transaction.transaction_id.strip()
 
-    # --------------------------------
-    # Calculate derived features
-    # --------------------------------
+    # -----------------------------------------------------
+    # Validate transaction ID
+    # -----------------------------------------------------
 
-    hour = int((time_value / 3600) % 24)
+    if not transaction_id:
 
-    amount_log = math.log1p(amount)
+        raise HTTPException(
+            status_code=400,
+            detail="Transaction ID is required."
+        )
 
 
-    # --------------------------------
-    # Create V1 - V28
-    # --------------------------------
+    if not transaction_id.upper().startswith("TXN-"):
 
-    features = {}
+        raise HTTPException(
+            status_code=400,
+            detail="Transaction ID must be in format TXN-000001."
+        )
 
-    for i in range(1, 29):
 
-        feature_name = f"V{i}"
+    try:
 
-        features[feature_name] = float(
-            transaction.advanced_features.get(
-                feature_name,
-                0
+        row_number = int(
+            transaction_id.upper().replace("TXN-", "")
+        ) - 1
+
+    except ValueError:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Transaction ID. Example: TXN-000001."
+        )
+
+
+    # -----------------------------------------------------
+    # Check transaction exists
+    # -----------------------------------------------------
+
+    if row_number < 0 or row_number >= len(dataset):
+
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                f"Transaction not found. "
+                f"Valid range: TXN-000001 to TXN-{len(dataset):06d}."
             )
         )
 
 
-    # --------------------------------
-    # Add basic + derived features
-    # --------------------------------
+    # -----------------------------------------------------
+    # Get REAL transaction from CSV
+    # -----------------------------------------------------
 
-    features["Time"] = time_value
-    features["Amount"] = amount
-    features["Hour"] = hour
-    features["Amount_Log"] = amount_log
+    transaction_row = dataset.iloc[row_number]
 
 
-    # --------------------------------
-    # Arrange features in exact
-    # model column order
-    # --------------------------------
+    # -----------------------------------------------------
+    # Build model features
+    # -----------------------------------------------------
+
+    features = {}
+
+    for column in feature_columns:
+
+        if column == "Hour":
+
+            features[column] = int(
+                (float(transaction_row["Time"]) / 3600) % 24
+            )
+
+        elif column == "Amount_Log":
+
+            features[column] = math.log1p(
+                float(transaction_row["Amount"])
+            )
+
+        else:
+
+            features[column] = float(
+                transaction_row[column]
+            )
+
+
+    # -----------------------------------------------------
+    # Create model input
+    # -----------------------------------------------------
 
     input_data = pd.DataFrame(
-        [[features[column] for column in feature_columns]],
+        [[
+            features[column]
+            for column in feature_columns
+        ]],
         columns=feature_columns
     )
 
 
-    # --------------------------------
-    # Fraud Probability
-    # --------------------------------
+    # -----------------------------------------------------
+    # Fraud probability
+    # -----------------------------------------------------
 
     fraud_probability = float(
         model.predict_proba(input_data)[0][1]
     )
 
 
-    # --------------------------------
-    # Risk Score
-    # --------------------------------
+    # -----------------------------------------------------
+    # Risk score
+    # -----------------------------------------------------
 
     risk_score = float(
-        round(fraud_probability * 100, 2)
+        round(
+            fraud_probability * 100,
+            2
+        )
     )
 
 
-    # --------------------------------
-    # Risk Classification
-    # --------------------------------
+    # -----------------------------------------------------
+    # Risk level
+    # -----------------------------------------------------
 
     if risk_score < 30:
 
@@ -184,9 +223,9 @@ def predict(transaction: TransactionRequest):
         recommendation = "BLOCK / MANUAL REVIEW"
 
 
-    # --------------------------------
-    # SHAP Explanation
-    # --------------------------------
+    # -----------------------------------------------------
+    # SHAP explanation
+    # -----------------------------------------------------
 
     shap_values = explainer.shap_values(input_data)
 
@@ -196,10 +235,6 @@ def predict(transaction: TransactionRequest):
     )
 
 
-    # --------------------------------
-    # Top 5 Risk Factors
-    # --------------------------------
-
     top_factors = (
         local_shap
         .abs()
@@ -208,12 +243,17 @@ def predict(transaction: TransactionRequest):
     )
 
 
-    risk_factors = []
+    # -----------------------------------------------------
+    # Risk factors
+    # -----------------------------------------------------
 
+    risk_factors = []
 
     for feature in top_factors.index:
 
-        impact = float(local_shap[feature])
+        impact = float(
+            local_shap[feature]
+        )
 
         if impact > 0:
 
@@ -234,17 +274,18 @@ def predict(transaction: TransactionRequest):
             ),
 
             "direction": direction
+
         })
 
 
-    # --------------------------------
-    # Response
-    # --------------------------------
+    # -----------------------------------------------------
+    # Final response
+    # -----------------------------------------------------
 
     return {
 
         "transaction_id":
-            transaction.transaction_id,
+            transaction_id,
 
         "fraud_probability":
             round(
@@ -263,4 +304,5 @@ def predict(transaction: TransactionRequest):
 
         "top_risk_factors":
             risk_factors
+
     }

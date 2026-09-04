@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AI Payment Risk Engine</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
 
 <div class="container">
 
+    <!-- HEADER -->
     <header class="topbar">
 
         <div>
@@ -34,96 +36,81 @@
 
     </header>
 
+
+    <!-- TRANSACTION INPUT -->
     <section class="card transaction-card">
 
-    <div class="section-heading">
-        <div>
-            <span class="section-number">01</span>
-            <h2>Transaction Console</h2>
-        </div>
+        <div class="section-heading">
 
-        <span class="section-note">
-            INPUT DATA
-        </span>
-    </div>
+            <div>
+                <span class="section-number">01</span>
+                <h2>Transaction Console</h2>
+            </div>
 
-
-    <!-- BASIC TRANSACTION DETAILS -->
-
-    <div class="basic-inputs">
-
-        <h2>Enter Transaction Details</h2>
-
-        <p>
-            Provide basic transaction information.
-            Advanced model features can be used when required.
-        </p>
-
-
-        <div class="field">
-
-            <label>Transaction ID</label>
-
-            <input
-                type="text"
-                id="transactionId"
-                placeholder="TXN-10001"
-            >
+            <span class="section-note">
+                INPUT DATA
+            </span>
 
         </div>
 
 
-        <div class="field">
+        <div class="basic-inputs">
 
-            <label>Transaction Amount</label>
+            <h2>Analyze a Transaction</h2>
 
-            <input
-                type="number"
-                id="amount"
-                placeholder="149.62"
-                step="0.01"
-                min="0"
-            >
+            <p>
+                Enter a transaction ID from the demo payment dataset to generate an AI-powered fraud risk assessment.
+            </p>
+
+
+            <div class="field">
+
+                <label for="transactionId">
+                    Transaction ID
+                </label>
+
+                <input
+                    type="text"
+                    id="transactionId"
+                    placeholder="TXN-000001"
+                    autocomplete="off"
+                >
+
+                <small>
+                    Example: TXN-000001
+                </small>
+
+            </div>
 
         </div>
 
 
-        <div class="field">
+        <button
+            id="analyzeButton"
+            onclick="analyzeTransaction()"
+        >
 
-            <label>Transaction Time</label>
+            <span>
+                Analyze Transaction
+            </span>
 
-            <input
-                type="time"
-                id="transactionTime"
-            >
+            <span class="arrow">
+                →
+            </span>
 
-        </div>
+        </button>
 
-    </div>
-
-
-
-    <button onclick="analyzeTransaction()">
-
-        <span>
-            Analyze Transaction
-        </span>
-
-        <span class="arrow">
-            →
-        </span>
-
-    </button>
-
-</section>
+    </section>
 
 
+    <!-- RESULT -->
     <section id="result" class="result hidden">
 
         <div class="section-heading result-heading">
 
             <div>
                 <span class="section-number">02</span>
+
                 <h2>Risk Assessment</h2>
             </div>
 
@@ -134,7 +121,7 @@
         </div>
 
 
-
+        <!-- RISK HERO -->
         <div class="risk-hero">
 
             <div class="score-area">
@@ -145,13 +132,16 @@
 
                 <h2 id="riskScore">--</h2>
 
+
                 <div class="risk-scale">
 
                     <span>LOW</span>
 
                     <div class="scale-line">
 
-                        <div class="scale-fill"></div>
+                        <div
+                            class="scale-fill"
+                        ></div>
 
                         <div
                             id="scaleDot"
@@ -176,6 +166,7 @@
                     --
                 </div>
 
+
                 <div class="decision-text">
 
                     <span>
@@ -193,48 +184,49 @@
         </div>
 
 
-        <div class="metrics">
+<!-- METRICS -->
+<div class="metrics">
 
-            <div class="metric">
+    <div class="metric">
 
-                <span class="metric-icon">%</span>
+        <span class="metric-icon">%</span>
 
-                <div>
+        <div>
 
-                    <p>
-                        Fraud Probability
-                    </p>
+            <p>
+                Fraud Probability
+            </p>
 
-                    <h3 id="fraudProbability">
-                        --
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="metric">
-
-                <span class="metric-icon">✓</span>
-
-                <div>
-
-                    <p>
-                        Decision Status
-                    </p>
-
-                    <h3 id="recommendationCopy">
-                        Pending
-                    </h3>
-
-                </div>
-
-            </div>
+            <h3 id="fraudProbability">
+                --
+            </h3>
 
         </div>
 
+    </div>
 
+
+    <div class="metric">
+
+        <span class="metric-icon" id="decisionIcon">✓</span>
+
+        <div>
+
+            <p>
+                Decision Status
+            </p>
+
+            <h3 id="recommendationCopy">
+                Pending
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <!-- SHAP EXPLANATION -->
         <div class="explanation">
 
             <div class="explanation-heading">
@@ -267,7 +259,7 @@
 </div>
 
 
-<script src="script.js"></script>
+<script src="script.js?v=3"></script>
 
 </body>
 </html>

@@ -1,8 +1,18 @@
+/* =========================================================
+   AI PAYMENT RISK ENGINE
+   FINAL CLEAN CSS
+   ========================================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
 
 :root {
     --navy: #17233c;
@@ -30,6 +40,10 @@
 }
 
 
+/* =========================================================
+   BODY
+   ========================================================= */
+
 body {
     font-family: Arial, Helvetica, sans-serif;
 
@@ -42,61 +56,60 @@ body {
         var(--background);
 
     color: var(--text);
-
     min-height: 100vh;
 }
 
 
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
 .container {
     width: 91%;
     max-width: 1120px;
-
     margin: 34px auto 60px;
 }
 
 
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
 .topbar {
     display: flex;
-
     justify-content: space-between;
     align-items: flex-end;
-
     margin-bottom: 25px;
 }
 
 .eyebrow {
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1.8px;
-
     color: var(--blue);
-
     margin-bottom: 7px;
 }
 
 .topbar h1 {
     font-size: 34px;
-
     color: var(--navy);
-
     letter-spacing: -1px;
 }
 
 .topbar p {
     margin-top: 7px;
-
     color: var(--muted);
-
     font-size: 14px;
 }
 
+
+/* =========================================================
+   SYSTEM STATUS
+   ========================================================= */
+
 .system-status {
     display: flex;
-
     align-items: center;
-
     gap: 8px;
 
     padding: 8px 13px;
@@ -104,16 +117,13 @@ body {
     border-radius: 20px;
 
     background: var(--green-light);
-
     border: 1px solid #bbf7d0;
 
     color: var(--green);
 
     font-size: 10px;
-
     font-weight: 800;
-
-    letter-spacing: .7px;
+    letter-spacing: 0.7px;
 }
 
 .system-status span {
@@ -124,20 +134,24 @@ body {
 
     border-radius: 50%;
 
-    box-shadow: 0 0 0 4px rgba(22,163,74,.08);
+    box-shadow:
+        0 0 0 4px rgba(22, 163, 74, 0.08);
 }
 
+
+/* =========================================================
+   CARDS
+   ========================================================= */
 
 .card,
 .result {
     background: var(--white);
 
     border: 1px solid var(--line);
-
     border-radius: 17px;
 
     box-shadow:
-        0 8px 30px rgba(23,35,60,.055);
+        0 8px 30px rgba(23, 35, 60, 0.055);
 
     margin-bottom: 22px;
 
@@ -145,12 +159,13 @@ body {
 }
 
 
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
 
 .section-heading {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
 
     padding-bottom: 20px;
@@ -160,15 +175,12 @@ body {
 
 .section-heading > div {
     display: flex;
-
     align-items: center;
-
     gap: 12px;
 }
 
 .section-number {
     font-size: 11px;
-
     font-weight: 800;
 
     color: var(--blue);
@@ -176,19 +188,16 @@ body {
     background: var(--blue-light);
 
     padding: 5px 7px;
-
     border-radius: 6px;
 }
 
 .section-heading h2 {
     font-size: 19px;
-
     color: var(--navy);
 }
 
 .section-note {
     font-size: 9px;
-
     font-weight: 800;
 
     letter-spacing: 1.3px;
@@ -196,18 +205,63 @@ body {
     color: var(--muted);
 }
 
+
+/* =========================================================
+   TRANSACTION CARD
+   ========================================================= */
+
 .transaction-card {
-    padding: 25px 28px 28px;
+    padding: 28px 32px 32px;
 }
 
-.form-grid {
-    display: grid;
 
-    grid-template-columns: 0.75fr 2fr;
+/* Space below Transaction Console heading */
 
-    gap: 20px;
+.transaction-card > .section-heading {
+    margin-bottom: 26px;
+}
 
-    margin-top: 21px;
+
+/* =========================================================
+   BASIC INPUT SECTION
+   ========================================================= */
+
+.basic-inputs {
+    margin-top: 0;
+}
+
+.basic-inputs h2 {
+    font-size: 18px;
+
+    color: var(--navy);
+
+    margin: 0 0 8px 0;
+
+    line-height: 1.25;
+}
+
+.basic-inputs > p {
+    font-size: 13px;
+
+    color: var(--muted);
+
+    margin: 0 0 24px 0;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM FIELDS
+   ========================================================= */
+
+.field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin: 0 0 20px 0;
 }
 
 .field label {
@@ -219,8 +273,13 @@ body {
 
     color: #4b5567;
 
-    margin-bottom: 8px;
+    line-height: 1.3;
 }
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
 
 input,
 textarea {
@@ -240,11 +299,11 @@ textarea {
 
     color: var(--text);
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
 input {
-    height: 46px;
+    height: 48px;
 }
 
 textarea {
@@ -264,17 +323,20 @@ textarea:focus {
     border-color: var(--blue);
 
     box-shadow:
-        0 0 0 3px rgba(65,105,225,.08);
+        0 0 0 3px rgba(65, 105, 225, 0.08);
 }
 
 
+/* =========================================================
+   ANALYZE BUTTON
+   ========================================================= */
 
-button {
+.transaction-card > button {
     width: 100%;
 
-    height: 48px;
+    height: 54px;
 
-    margin-top: 20px;
+    margin-top: 4px;
 
     border: none;
 
@@ -298,14 +360,14 @@ button {
 
     gap: 10px;
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
-button:hover {
+.transaction-card > button:hover {
     background: var(--navy-light);
 
     box-shadow:
-        0 7px 16px rgba(23,35,60,.16);
+        0 7px 16px rgba(23, 35, 60, 0.16);
 
     transform: translateY(-1px);
 }
@@ -315,13 +377,27 @@ button:hover {
 
     font-weight: 400;
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
-button:hover .arrow {
+.transaction-card > button:hover .arrow {
     transform: translateX(4px);
 }
 
+button:disabled {
+    opacity: 0.65;
+
+    cursor: wait;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   RESULT CARD
+   ========================================================= */
 
 .result {
     padding: 25px 28px 30px;
@@ -332,10 +408,14 @@ button:hover .arrow {
 }
 
 
+/* =========================================================
+   RISK HERO
+   ========================================================= */
+
 .risk-hero {
     display: grid;
 
-    grid-template-columns: 1.4fr .9fr;
+    grid-template-columns: 1.4fr 0.9fr;
 
     gap: 30px;
 
@@ -343,6 +423,11 @@ button:hover .arrow {
 
     border-bottom: 1px solid var(--line);
 }
+
+
+/* =========================================================
+   RISK SCORE
+   ========================================================= */
 
 .label-small {
     color: var(--muted);
@@ -367,6 +452,9 @@ button:hover .arrow {
 }
 
 
+/* =========================================================
+   RISK SCALE
+   ========================================================= */
 
 .risk-scale {
     display: flex;
@@ -421,17 +509,20 @@ button:hover .arrow {
     border: 3px solid var(--navy);
 
     top: 50%;
-
     left: 0%;
 
     transform: translate(-50%, -50%);
 
     box-shadow:
-        0 2px 6px rgba(0,0,0,.2);
+        0 2px 6px rgba(0, 0, 0, 0.2);
 
     transition: left 0.5s ease;
 }
 
+
+/* =========================================================
+   DECISION AREA
+   ========================================================= */
 
 .decision-area {
     display: flex;
@@ -454,7 +545,7 @@ button:hover .arrow {
 
     font-weight: 800;
 
-    letter-spacing: .7px;
+    letter-spacing: 0.7px;
 
     background: var(--orange-light);
 
@@ -490,6 +581,9 @@ button:hover .arrow {
 }
 
 
+/* =========================================================
+   METRICS
+   ========================================================= */
 
 .metrics {
     display: grid;
@@ -524,6 +618,7 @@ button:hover .arrow {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     border-radius: 9px;
@@ -548,7 +643,7 @@ button:hover .arrow {
 
     text-transform: uppercase;
 
-    letter-spacing: .6px;
+    letter-spacing: 0.6px;
 }
 
 .metric h3 {
@@ -557,6 +652,10 @@ button:hover .arrow {
     color: var(--navy);
 }
 
+
+/* =========================================================
+   RISK FACTORS / EXPLANATION
+   ========================================================= */
 
 .explanation {
     margin-top: 28px;
@@ -593,6 +692,9 @@ button:hover .arrow {
 }
 
 
+/* =========================================================
+   RISK FACTOR ITEMS
+   ========================================================= */
 
 .factor {
     position: relative;
@@ -609,7 +711,7 @@ button:hover .arrow {
 
     border-left: 3px solid var(--blue);
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .factor::before {
@@ -635,11 +737,18 @@ button:hover .arrow {
 }
 
 
+/* =========================================================
+   HIDDEN
+   ========================================================= */
+
 .hidden {
     display: none;
 }
 
 
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 750px) {
 
@@ -648,6 +757,9 @@ button:hover .arrow {
 
         margin: 24px auto 40px;
     }
+
+
+    /* Top bar */
 
     .topbar {
         flex-direction: column;
@@ -661,9 +773,30 @@ button:hover .arrow {
         font-size: 28px;
     }
 
-    .form-grid {
-        grid-template-columns: 1fr;
+
+    /* Transaction card */
+
+    .transaction-card {
+        padding: 22px 20px 24px;
     }
+
+    .transaction-card > .section-heading {
+        margin-bottom: 22px;
+    }
+
+
+    /* Inputs */
+
+    .field {
+        margin-bottom: 18px;
+    }
+
+    input {
+        height: 48px;
+    }
+
+
+    /* Risk hero */
 
     .risk-hero {
         grid-template-columns: 1fr;
@@ -679,137 +812,123 @@ button:hover .arrow {
         text-align: left;
     }
 
+
+    /* Metrics */
+
     .metrics {
         grid-template-columns: 1fr;
     }
 
-/* EXPLANATION */
 
-.explanation {
-    margin-top: 32px;
-}
+    /* Explanation */
 
-.explanation h2 {
-    margin-bottom: 18px;
-    font-size: 21px;
-}
-
-
-.factor {
-    padding: 17px 18px;
-    margin-bottom: 12px;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(15,23,42,.9),
-            rgba(30,41,59,.55)
-        );
-
-    border: 1px solid rgba(148,163,184,.12);
-
-    border-left: 3px solid var(--cyan);
-
-    border-radius: 12px;
-
-    transition: .25s;
-}
-
-.factor:hover {
-    transform: translateX(5px);
-
-    border-left-color: #818cf8;
-
-    box-shadow:
-        0 0 25px rgba(34,211,238,.08);
-}
-
-.friendly-input {
-    margin-top: 21px;
-}
-
-.input-intro h3 {
-    font-size: 15px;
-    color: var(--navy);
-    margin-bottom: 5px;
-}
-
-.input-intro p {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 18px;
-}
-
-.simple-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 16px;
-}
-
-
-.advanced-section {
-    margin-top: 18px;
-}
-
-.advanced-toggle {
-    margin-top: 0;
-    height: 42px;
-
-    background: #f7f9fc;
-    color: var(--navy);
-
-    border: 1px solid var(--line);
-
-    box-shadow: none;
-
-    justify-content: space-between;
-
-    font-size: 12px;
-}
-
-.advanced-toggle:hover {
-    background: var(--blue-light);
-    box-shadow: none;
-    transform: none;
-}
-
-#advancedArrow {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.advanced-input {
-    margin-top: 12px;
-    padding: 16px;
-
-    background: #fafbfd;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-}
-
-.input-help {
-    margin: 5px 0 10px;
-
-    color: var(--muted);
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-
-button:disabled {
-    opacity: .65;
-    cursor: wait;
-    transform: none;
-    box-shadow: none;
-}
-
-@media (max-width: 750px) {
-
-    .simple-grid {
-        grid-template-columns: 1fr;
+    .explanation {
+        margin-top: 28px;
     }
 
-}
+    .explanation-heading {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+    .explanation-heading h2 {
+        font-size: 18px;
+    }
+
+
+    /* Risk factors */
+
+    .factor {
+        padding: 15px 16px 15px 42px;
+
+        margin-bottom: 10px;
+    }
+
+    .factor::before {
+        left: 16px;
+    }
 }
 
 
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        width: 92%;
+    }
+
+    .topbar h1 {
+        font-size: 25px;
+    }
+
+    .section-heading h2 {
+        font-size: 17px;
+    }
+
+    .section-note {
+        display: none;
+    }
+
+    .transaction-card {
+        padding: 20px 17px 22px;
+    }
+
+    .basic-inputs h2 {
+        font-size: 17px;
+    }
+
+    .basic-inputs > p {
+        font-size: 12px;
+
+        margin-bottom: 20px;
+    }
+
+    .risk-hero {
+        padding: 24px 0;
+    }
+
+    .score-area h2 {
+        font-size: 48px;
+    }
+
+    .result {
+        padding: 22px 18px 25px;
+    }
+}
+/* =====================================================
+   DYNAMIC RISK STATES
+   ===================================================== */
+
+.risk-low {
+    color: #16803c;
+    border-color: #b7e8c8;
+    background: #effbf3;
+}
+
+.risk-medium {
+    color: #a96800;
+    border-color: #f2d29b;
+    background: #fff8e8;
+}
+
+.risk-high {
+    color: #c43d32;
+    border-color: #f3b9b3;
+    background: #fff1ef;
+}
+
+
+/* Decision icons */
+
+#decisionIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
