@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 MODEL_PATH = BASE_DIR / "models" / "fraud_model.pkl"
 FEATURES_PATH = BASE_DIR / "models" / "feature_columns.pkl"
-DATA_PATH = BASE_DIR / "data" / "creditcard.csv"
+DATA_PATH = BASE_DIR / "data" / "demo_transactions.csv"
 
 
 # =========================================================
