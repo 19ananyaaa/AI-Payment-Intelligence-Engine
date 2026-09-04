@@ -1,6 +1,6 @@
 # AI Payment Intelligence Engine
 
-An AI-powered fintech system for detecting fraudulent payment transactions, calculating transaction risk, and providing explainable risk factors using machine learning and SHAP.
+An AI-powered fintech system for detecting fraudulent payment transactions, calculating transaction risk, and providing explainable risk factors using Machine Learning and SHAP.
 
 ## 🚀 Live Demo
 
@@ -8,7 +8,7 @@ https://ai-payment-intelligence-engine-1.onrender.com
 
 ## 📌 Project Overview
 
-The AI Payment Intelligence Engine analyzes transaction features and predicts the probability of fraud.
+The AI Payment Intelligence Engine is a machine learning-based fraud detection system designed to assess payment transaction risk.
 
 The system generates:
 
@@ -17,21 +17,44 @@ The system generates:
 - Risk level
 - Recommended action
 - Top contributing risk factors
-- Explainable AI insights using SHAP
+- SHAP-based explainable AI insights
 
 ## ⚙️ How It Works
 
-1. User enters a Transaction ID.
-2. User provides the transaction feature values.
-3. The frontend sends the data to the FastAPI backend.
-4. The trained machine learning model predicts fraud probability.
-5. The system calculates a risk score.
-6. SHAP explains the most influential features.
-7. The result is displayed on the dashboard.
+1. User enters a demo Transaction ID.
+2. The backend maps the Transaction ID to a transaction in the reference dataset.
+3. The transaction features are retrieved from the dataset.
+4. Derived features such as `Hour` and `Amount_Log` are calculated.
+5. The trained XGBoost model predicts the probability of fraud.
+6. The probability is converted into a risk score.
+7. The transaction is classified as LOW, MEDIUM, or HIGH risk.
+8. SHAP identifies the most influential features behind the prediction.
+9. The result is displayed on the dashboard.
 
 ## 🧠 Machine Learning
 
-The project uses a trained fraud detection model to classify payment transactions based on transaction features.
+The project uses an **XGBoost classifier** for binary fraud detection.
+
+The model uses 32 features:
+
+- `Time`
+- `V1` to `V28`
+- `Amount`
+- `Hour`
+- `Amount_Log`
+
+The dataset contains **284,807 transactions** and **492 fraudulent transactions**, making it a highly imbalanced classification problem.
+
+### Model Performance
+
+| Metric | Score |
+|--------|-------|
+| Accuracy | 99.95% |
+| Precision | 85.26% |
+| Recall | 82.65% |
+| F1-Score | 83.94% |
+| ROC-AUC | 0.983 |
+| PR-AUC | 0.880 |
 
 ### Risk Classification
 
@@ -43,58 +66,131 @@ The project uses a trained fraud detection model to classify payment transaction
 
 ## 🔍 Explainable AI
 
-SHAP (SHapley Additive exPlanations) is used to identify the features that have the greatest influence on each prediction.
+**SHAP (SHapley Additive exPlanations)** is used to explain individual predictions.
 
-The dashboard displays the top 5 model contributors and explains whether each feature:
+For every analyzed transaction, the system identifies the top 5 features that have the greatest influence on the prediction.
+
+Each feature is shown as either:
 
 - Increased fraud risk
 - Reduced fraud risk
 
+This makes the model more interpretable and helps users understand why a transaction is considered risky.
+
 ## 🖥️ Features
 
-- Transaction analysis dashboard
-- Real-time fraud prediction
-- Risk score calculation
-- Fraud probability
+- AI-based fraud detection
+- Transaction risk scoring
+- Fraud probability estimation
 - LOW / MEDIUM / HIGH risk classification
-- Automated recommendation
+- Automated risk recommendation
 - SHAP-based explainability
+- Top 5 risk factors
 - FastAPI REST API
-- Responsive web interface
+- Responsive fintech dashboard
 - Cloud deployment using Render
 
-## 🛠️ Tech Stack
+## 🏗️ System Architecture
 
-### Backend
-- Python
-- FastAPI
-- Pydantic
-- Pandas
-- Joblib
-- SHAP
-- Uvicorn
+User
+  │
+  ▼
+Frontend Dashboard
+  │
+  │ Transaction ID
+  ▼
+FastAPI Backend
+  │
+  ├── Demo Transaction Dataset
+  │
+  ├── Feature Preparation
+  │
+  ▼
+XGBoost Fraud Detection Model
+  │
+  ├── Fraud Probability
+  ├── Risk Score
+  └── Risk Level
+  │
+  ▼
+SHAP Explainability
+  │
+  ▼
+Risk Factors + Recommendation
+  │
+  ▼
+Frontend Dashboard
 
-### Machine Learning
-- Scikit-learn
-- XGBoost
-- SHAP
 
-### Frontend
-- HTML
-- CSS
-- JavaScript
+📊 Dataset
 
-### Deployment
-- GitHub
-- Render
+The project is based on a credit card fraud detection dataset containing:
 
-## 📂 Project Structure
+284,807 transactions
+492 fraudulent transactions
+30 original transaction features
+Highly imbalanced fraud distribution
 
-```text
+The full dataset is used for model development and training.
+
+The complete creditcard.csv file is not stored in the GitHub repository because of its large size.
+
+For the deployed application, a small authentic subset of the original dataset is included:
+
+data/demo_transactions.csv
+
+This allows the deployed API to perform genuine model inference without storing the complete training dataset in the repository.
+
+Demo Transaction IDs
+
+Transaction IDs such as:
+
+TXN-000001
+TXN-000542
+
+are demo/reference IDs created for this portfolio project.
+
+They map to rows in the reference dataset and are not real banking transaction identifiers.
+
+🔗 API Endpoints
+
+The backend is built using FastAPI.
+
+Health Check
+GET /
+
+Checks whether the API service is running.
+
+Fraud Prediction
+POST /predict
+
+Example request:
+
+{
+  "transaction_id": "TXN-000542"
+}
+
+Example response:
+
+{
+  "transaction_id": "TXN-000542",
+  "fraud_probability": 0.998,
+  "risk_score": 99.8,
+  "risk_level": "HIGH",
+  "recommendation": "BLOCK / MANUAL REVIEW",
+  "top_risk_factors": []
+}
+
+The top_risk_factors field contains the most influential SHAP features for the transaction.
+
+📂 Project Structure
 AI-Payment-Intelligence-Engine/
 │
 ├── api/
 │   └── main.py
+│
+├── data/
+│   └── demo_transactions.csv
 │
 ├── frontend/
 │   ├── index.html
@@ -108,38 +204,83 @@ AI-Payment-Intelligence-Engine/
 ├── notebooks/
 │   └── 01_data_exploration.ipynb
 │
+├── src/
+│   └── train_model.py
+│
 ├── .gitignore
+├── .python-version
+├── requirements.txt
 └── README.md
-```
 
-```markdown
-## 🔗 API Endpoints
 
-### Health Check
+🛠️ Tech Stack
 
-`GET /`
+Backend
+Python
+FastAPI
+Pydantic
+Pandas
+Joblib
+Uvicorn
+Machine Learning
+XGBoost
+Scikit-learn
+NumPy
+SHAP
+Frontend
+HTML
+CSS
+JavaScript
+Deployment
+GitHub
+Render
 
-Checks whether the FastAPI service is running successfully.
 
-### Fraud Prediction
+💻 Local Setup
 
-`POST /predict`
+1. Clone the repository
+git clone https://github.com/19ananyaaa/AI-Payment-Intelligence-Engine.git
+cd AI-Payment-Intelligence-Engine
+2. Create a virtual environment
+python -m venv venv
+3. Activate the virtual environment
 
-Accepts a transaction ID and 32 transaction feature values, then returns:
+Windows:
 
-- Fraud probability
-- Risk score
-- Risk level
-- Recommended action
-- Top 5 risk factors
+venv\Scripts\activate
+4. Install dependencies
+pip install -r requirements.txt
+5. Start the FastAPI server
+uvicorn api.main:app --reload
 
-## 🎯 Objective
+API:
+
+http://127.0.0.1:8000
+
+Swagger documentation:
+
+http://127.0.0.1:8000/docs
+
+
+🧪 Example
+
+Use:
+
+TXN-000542
+
+to test a high-risk transaction.
+
+Example result:
+
+Fraud Probability: 99.8%
+Risk Score: 99.8
+Risk Level: HIGH
+Recommendation: BLOCK / MANUAL REVIEW
+🎯 Objective
 
 The objective of this project is to build an intelligent payment risk assessment system that can identify potentially fraudulent transactions and provide explainable reasons behind each prediction.
 
-The system combines machine learning with SHAP-based explainable AI to help users understand why a transaction is considered risky.
+The project combines Machine Learning, XGBoost, imbalanced classification, FastAPI, SHAP Explainable AI, and a web-based dashboard into an end-to-end fraud detection system.
 
-## 👩‍💻 Author
-
-**Ananya Agarwal**
-```
+👩‍💻 Author
+Ananya Agarwal
